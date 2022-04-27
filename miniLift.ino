@@ -2,7 +2,7 @@
 const int sensorPin = 12;
 //const int sensorPin2 = 13;
 //const int enaPin = 13;
-const int buttonPin = 13;//to trigger to change direction
+const int btnPin = 13;
 const int pulPin = 15;
 const int dirPin = 14;
 
@@ -13,12 +13,11 @@ void setup() {
   // make the sensor's pin an input:
   pinMode(sensorPin, INPUT);
   //pinMode(sensorPin2, INPUT);
+
+  pinMode(btnPin, INPUT);
   
 // make the ena's pin an output:
-//pinMode(enaPin, OUTPUT);
-
-// initialize the pushbutton pin as an input: 
-  pinMode(buttonPin, INPUT);
+  //pinMode(enaPin, OUTPUT);
 
 // make the pul's pin an output:
   pinMode(pulPin, OUTPUT);
@@ -27,28 +26,25 @@ void setup() {
   pinMode(dirPin, OUTPUT);
 
 
-digitalWrite(pulPin, LOW);//forward or backward
-digitalWrite(dirPin, LOW);//open or close
-//digitalWrite(enaPin, LOW);//open or close
+  digitalWrite(pulPin, LOW);//forward or backward
 }
 
 // the loop routine runs over and over again forever:
-void loop() {
-  // check if the pushbutton is pressed. If it is, the buttonState is HIGH:
-  if (digitalRead(buttonPin) == HIGH) {
-    // backward?:
-    digitalWrite(pulPin, HIGH);
-  } else {
-    // forward?:
-    digitalWrite(pulPin, LOW);
-  }
+  void loop() {
+  if(digitalRead(btnPin) == HIGH){
+          digitalWrite(pulPin, HIGH);
+    }
+  else if(digitalRead(btnPin) == LOW){
+          digitalWrite(pulPin, LOW);
+     }
 
-// check if the human is detected. If it is, the sensorPin status is HIGH:
-  if (digitalRead(sensorPin) == HIGH) {
-    // on:
-    digitalWrite(dirPin, HIGH);
-  } else {
-    // off:
+  if(digitalRead(sensorPin) == HIGH){
     digitalWrite(dirPin, LOW);
+    digitalWrite(dirPin, HIGH);
+    delayMicroseconds(10);//speed is inversely proporitonal to this value
   }
+  else if(digitalRead(sensorPin) == LOW){
+    digitalWrite(dirPin, LOW);
+    digitalWrite(dirPin, LOW);
+  }  
 }
